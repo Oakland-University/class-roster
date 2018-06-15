@@ -1,0 +1,97 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.6.RELEASE'
+	}
+	repositories {
+        maven {
+          url "https://maven.oakland.edu/nexus/content/groups/public"
+          name "nexus"
+        }
+        mavenLocal()
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {  
+    id "com.moowork.node" version "1.2.0"   
+    id "net.linguica.maven-settings" version "0.5" 
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+apply plugin: 'com.moowork.node'
+apply plugin: 'maven'
+
+war {
+	baseName = 'class-roster'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+	mavenCentral()
+}
+
+configurations {
+	providedRuntime
+}
+
+node {  
+    version = '6.11.2'   
+    yarnVersion = '0.27.5'
+    // Base URL for fetching node distributions (change if you have a mirror).   
+    distBaseUrl = 'https://nodejs.org/dist'   
+    download = true   
+    // Set the work directory for unpacking node   
+    workDir = file("${project.buildDir}/nodejs")   
+    yarnWorkDir = file("src/main/react/yarn")
+    // Set the work directory where node_modules should be located   
+    nodeModulesDir = file("src/main/react")
+}
+
+task compile(dependsOn: 'clean') {
+}
+
+task runBuild(type: YarnTask) {
+    args = ['run', 'build']
+} 
+
+task copyTask(type: Copy) {   
+    from 'src/main/react/build/static/'   
+    into 'src/main/webapp/' 
+}
+
+clean.finalizedBy(yarn_install)
+yarn_install.finalizedBy(yarn_upgrade)
+yarn_upgrade.finalizedBy(runBuild) 
+runBuild.finalizedBy(copyTask) 
+
+dependencies {
+	//compile('org.springframework.boot:spring-boot-starter-jdbc')
+	//compile('org.springframework.boot:spring-boot-starter-web')
+    //compile('org.jasig.portal:uPortal-soffit-renderer:5.0.0-SNAPSHOT')	
+    //compile('org.jasig.portal:uPortal-soffit-renderer:5.0.0-OU-1-c75b429c26')
+	//compile('org.jasig.portal:uPortal-soffit-core:5.0.0-OU-1-c75b429c26')
+
+    compile('org.springframework.boot:spring-boot-starter-cache')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+    providedRuntime('org.apache.tomcat.embed:tomcat-embed-jasper')
+    //testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile ('org.jasig.portal:uPortal-soffit-renderer:5.0.0-OU-1-c75b429c26')  
+    compile('org.jasig.portal:uPortal-soffit-core:5.0.0-OU-1-c75b429c26')
+    compile("org.jasypt:jasypt:1.9.2")
+    compile("io.jsonwebtoken:jjwt:0.6.0")
+    compileOnly('org.projectlombok:lombok')
+    compile("org.apache.commons:commons-lang3:3.4")
+    compile("org.springframework:spring-jdbc")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    runtime('com.oracle:ojdbc6:11.2.0.3')
+}

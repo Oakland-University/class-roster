@@ -1,0 +1,56 @@
+.Class-Roster-Panel-Body {
+  color: black;
+  background: #F8F5EC;
+  border-style: solid;
+  border-width: thin;
+  border-color: #DDDDDD;
+  padding: 20px;
+  height: 150px;
+}
+
+.Class-Roster-Panel-Header {
+  text: black;
+  font-size: 125%;
+  background: #D9C89E;
+  border-left-style: solid;
+  border-left-width: thick;
+  border-left-color: #B59A57;
+  height: 50px;
+}
+
+.Class-Roster-Panel-Text {
+  width: 200;
+  float: left;
+}
+
+.Class-Roster-Header-Text {
+  padding: 20px;
+}
+
+.Class-Roster-Column {
+  display: flex;
+  float: right;
+  vertical-align: middle;
+}
+
+.Class-Roster-Table {
+  border: 2px;
+  border-spacing: 0.5rem;
+  display: block;
+  margin: auto;
+  
+}
+
+.Class-Roster-Table-header {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+.Class-Roster-Table-td {
+  padding-right: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+  tr:nth-child(even) {background-color: #D9C89E}
+  tr:nth-child(odd) {background-color: #FFFFFF}
