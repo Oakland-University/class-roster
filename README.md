@@ -1,3 +1,5 @@
+# This repo is not being maintained, use at your own risk
+
 # Class Roster 
 A class roster soffit for faculty members to view their classes per term as well as the students in each class.
 
